@@ -1,0 +1,624 @@
+---
+title: "BIOMONITOREO DE LOS NIVELES DE CADMIO EN LA ORINA DE LAS COMUNIDADES PESQUERAS DE LA CIÉNAGA DE MALLORQUÍN"
+author: "Emily Diaz Medina"
+date: "4-Nov-2026"
+lang: es
+
+format:
+  html:
+    toc: true
+    code-fold: true
+    self-contained: true
+    css: styles.css
+
+editor: visual
+
+execute:
+  echo: false
+  message: false
+  warning: false
+
+bibliography: references.bib
+---
+
+## Introducción
+
+La biomonitorización humana (HBM) permite evaluar la exposición de una población determinada, en un momento específico, a sustancias químicas mediante la medición de estas o de sus metabolitos en materiales biológicos como la sangre, la orina, la saliva, la placenta, el cabello, las uñas, los dientes y la leche materna, siendo los dos primeros las matrices más utilizadas en HBM [@al-saleh2020a].
+
+Los metales pesados representan una problemática ambiental y de salud pública debido a su persistencia en el ambiente, ya que no son degradables y pueden provenir tanto de fuentes naturales como antropogénicas. Su liberación al ambiente se ha incrementado como consecuencia del crecimiento de las actividades humanas, especialmente en los sectores industriales, tecnológicos, energéticos, urbanísticos y agropecuarios. La población humana puede estar expuesta a metales como el plomo, el cadmio y el mercurio a través de diversas fuentes, entre ellas el aire, los alimentos, el agua potable, el tabaco, los cosméticos, las amalgamas dentales y otros productos de uso doméstico. [@al-saleh2020a].
+
+Bajo este contexto, la Ciénaga de Mallorquín, ubicada en el departamento del Atlántico, ha sido objeto de investigaciones relacionadas con la presencia de contaminantes de origen antropogénicos. Como lo presentado por Fuentes-Gandara et al. (2021) que evaluaron la contaminación por metales pesados en los sedimentos superficiales de la Ciénaga de Mallorquín, identificando la presencia de cadmio, plomo, cobre, zinc y mercurio en siete estaciones de muestreo. Donde el cadmio presentó una concentración promedio de 0,43 ± 0,13 µg/g, con el valor más elevado en la estación ubicada frente al sector Las Flores (0,67 µg/g), siendo estos niveles de cadmio superiores a los valores de referencia utilizados en su investigación (0,055 ± 0,014 µg/g) [@fuentes-gandara2021].
+
+Por ende, la determinación de cadmio en muestras de orina constituye una aproximación al biomonitoreo de la exposición humana a este metal, permitiendo aportar información sobre su presencia en la población aldeña a la Ciénaga de Mallorquín. La información proporcionada en los resultados obtenidos en el trabajo de grado de Garizábalo Flórez (2025), titulado *Biomonitoreo de los niveles de cadmio en la orina de las comunidades pesqueras de la Ciénaga de Mallorquín*, con el propósito de realizar un analisis descriptivo de sus hallasgos.
+
+**Pregunta problema:** ¿Hay evidencia de exposición interna al cadmio en la población pesquera de la Ciénaga de Mallorquín determinada a partir de la concentración de este metal en sus muestras de orina por encima del límite de referencia establecido?
+
+**Hipótesis nula (H₀):** Las concentraciones de cadmio determinadas en las muestras de orina no presentan evidencia de exposición interna al metal por encima del límite de referencia establecido.
+
+**Hipótesis alternativa (H₁):** Las concentraciones de cadmio determinadas en las muestras de orina presentan evidencia de exposición interna al metal por encima del límite de referencia establecido.
+
+Garizábalo Flórez, J. de J. (2025). Biomonitoreo de los niveles de cadmio en la orina de las comunidades pesqueras de la Ciénaga de Mallorquín \[Trabajo de grado no publicado\]. Universidad del Atlántico.
+
+```{r}
+#| label: cargar-librerias
+
+library(ggplot2)
+library(readr)
+library(readxl)
+library(dplyr)
+library(tidyr)
+library(gt)
+library(knitr)
+
+#Cargar datos
+Datos<-read_xlsx("Emy_Resultados_cadmio_orina_ugl.xlsx")
+
+```
+
+# Metodología
+
+### Origen de los datos
+
+Los datos provienen del trabajo de grado no publicado *“Biomonitoreo de los niveles de cadmio en la orina de las comunidades pesqueras de la Ciénaga de Mallorquín”* escrito por Josué Garizábalo en 2025 en la Universidad del Atlántico. El conjunto de datos fue descargado en formato `.xlsx` y contiene una hoja con los datos obtenidos:
+
+- Cuenta con las concentraciones en la orina de 61 individuos .
+
+Para este informe se utilizó únicamente la columna correspondiente a Cd_µg_L .
+
+### Análisis realizado
+
+Se calcularon estadísticas descriptivas (media, mediana, desviación estándar, mínimo y máximo y percentil 95) de los resultados de concentración de cadmio en orina. Se utilizaron **pruebas t de Student** para comprobar la hipótesis tomado del trabajo de grado el indice de referencia usado que fue de 1µg/L, valor utilizado por la Comisión Alemana de Biomonitoreo Humano (HBM-I) para cadmio urinario en adultos. Y las gráficas se diseñaron con el paquete de ggplot2
+
+```{r}
+#En las 62 muestras analizadas, 47 presentaron concentraciones inferiores a 1 µg/L, 14 se encontraron entre 1 y 4 µg/L y una presentó 4,72 µg/L. Por lo tanto, la mayoría de los resultados se encontró por debajo del HBM-I establecido para adultos, aunque también se identificó un grupo con concentraciones superiores a este nivel. El valor máximo de 4,72 µg/L supera el HBM-II establecido para adultos. Sin embargo, este resultado por sí solo no permite afirmar que el participante presente una intoxicación o una enfermedad producida por Cd, pero sí representa una concentración que merece mayor atención y que podría justificar la repetición de la medición y la investigación de posibles fuentes de exposición. En este caso también es importante considerar la edad del participante, 
+
+#el límite de detección del método (LDM) fue de 0,12 µg/L y el límite de cuantificación del método (LCM) fue de 5,00 µ/L. De las 62 muestras analizadas, 9 (14,52 %) presentaron concentraciones inferiores al LDM, mientras que 53 (85,48 %) se encontraron entre el LDM y el LCM.
+```
+
+# Resultados
+
+### Estadística descriptiva
+
+```{r}
+#| label: tabla
+# Convertir los resultados de mg/L a µg/L
+Datos <- Datos |>
+  mutate(
+    Cd_ug_L = RESULTADO * 1000
+  )
+#| label: estadisticas-descriptivas
+# Estadísticas descriptivas
+tabla1 <- Datos |>
+  summarise(
+    N = sum(!is.na(Cd_ug_L)),
+    Media = mean(Cd_ug_L, na.rm = TRUE),
+    Mediana = median(Cd_ug_L, na.rm = TRUE),
+    SD = sd(Cd_ug_L, na.rm = TRUE),
+    Minimo = min(Cd_ug_L, na.rm = TRUE),Maximo = max(Cd_ug_L, na.rm = TRUE),
+    P95 = quantile(Cd_ug_L, 0.95, na.rm = TRUE)
+  )
+
+
+```
+
+```{r}
+
+tabla1 <- Datos |>
+  summarise(
+    `Número de muestras (N)` = sum(!is.na(Cd_ug_L)),
+    `Media (µg/L)` = mean(Cd_ug_L, na.rm = TRUE),
+    `Mediana (µg/L)` = median(Cd_ug_L, na.rm = TRUE),
+    `Desviación estándar (µg/L)` = sd(Cd_ug_L, na.rm = TRUE),
+    `Mínimo (µg/L)` = min(Cd_ug_L, na.rm = TRUE),
+    `Máximo (µg/L)` = max(Cd_ug_L, na.rm = TRUE),
+    `Percentil 95 (µg/L)` = quantile(Cd_ug_L, 0.95, na.rm = TRUE)
+  )
+
+kable(
+  tabla1,
+  digits = 2,
+  caption = " Tabla 1:Estadísticas descriptivas de las concentraciones de cadmio en orina"
+)
+```
+
+### Análisis exploratorio
+
+```{r}
+# Histograma de las concentraciones de Cd
+ggplot(Datos, aes(x = Cd_ug_L)) +
+
+  geom_histogram(
+    bins = 10,
+    fill = "pink",
+    color = "white",
+    linewidth = 0.8,
+    alpha = 0.95
+  ) +
+
+  # Títulos y etiquetas
+  labs(
+    title = "Distribución de las concentraciones de cadmio",
+    x = "Concentración de Cd (µg/L)",
+    y = "Frecuencia"
+  ) +
+
+  # Escalas y ejes
+  scale_x_continuous(
+    breaks = scales::pretty_breaks(n = 7),
+    expand = expansion(mult = c(0.01, 0.04))
+  ) +
+
+  scale_y_continuous(
+    breaks = scales::pretty_breaks(n = 6),
+    expand = expansion(mult = c(0, 0.08))
+  ) +
+
+  # Apariencia general
+  theme_classic(base_family = "Times New Roman") +
+
+  theme(
+    # Título principal
+    plot.title = element_text(
+      family = "Times New Roman",
+      face = "bold",
+      size = 19,
+      hjust = 0.5,
+      color = "black",
+      margin = margin(b = 18)
+    ),
+
+    # Títulos de los ejes
+    axis.title.x = element_text(
+      family = "Times New Roman",
+      face = "bold",
+      size = 16,
+      color = "black",
+      margin = margin(t = 12)
+    ),
+
+    axis.title.y = element_text(
+      family = "Times New Roman",
+      face = "bold",
+      size = 16,
+      color = "black",
+      margin = margin(r = 12)
+    ),
+
+    # Valores numéricos de los ejes
+    axis.text = element_text(
+      family = "Times New Roman",
+      size = 13,
+      color = "black"
+    ),
+
+    # Ejes más definidos
+    axis.line = element_line(
+      color = "black",
+      linewidth = 0.9
+    ),
+
+    axis.ticks = element_line(
+      color = "black",
+      linewidth = 0.8
+    ),
+
+    axis.ticks.length = grid::unit(0.18, "cm"),
+
+    # Fondo blanco y presentación limpia
+    panel.background = element_rect(
+      fill = "white",
+      color = NA
+    ),
+
+    plot.background = element_rect(
+      fill = "white",
+      color = NA
+    ),
+
+    # Márgenes para centrar visualmente el gráfico
+    plot.margin = margin(
+      t = 20,
+      r = 22,
+      b = 18,
+      l = 22
+    )
+  )
+
+
+```
+
+```{r}
+#| label: clasificacion-cd
+
+LDM <- 0.00012
+LCM <- 0.005
+RV <- 0.002
+
+Datos <- Datos |>
+  mutate(
+    Limites_analiticos = case_when(
+      RESULTADO < LDM ~ "Por debajo del LDM",
+      RESULTADO < LCM ~ "Entre LDM y LCM",
+      RESULTADO >= LCM ~ "Igual o mayor al LCM"
+    ),
+    
+    Valor_referencia = case_when(
+      RESULTADO < RV ~ "Por debajo del valor de referencia",
+      RESULTADO >= RV ~ "Igual o superior al valor de referencia"
+    )
+  )
+
+#| label: tabla-clasificacion
+
+Datos <- Datos |>
+  mutate(
+    Limites_analiticos = case_when(
+      Cd_ug_L < 0.12 ~ "Inferior al LDM",
+      Cd_ug_L < 5.00 ~ "Entre LDM y LCM",
+      Cd_ug_L >= 5.00 ~ "Igual o superior al LCM"
+    ),
+
+    Valor_referencia = case_when(
+      Cd_ug_L < 2.00 ~ "Inferior al valor de referencia",
+      Cd_ug_L >= 2.00 ~ "Igual o superior al valor de referencia"
+    )
+  )
+
+# Clasificación según límites analíticos
+limites <- Datos |>
+  count(Limites_analiticos) |>
+  mutate(
+    Porcentaje = round(n / sum(n) * 100, 2)
+  ) |>
+  rename(
+    Categoria = Limites_analiticos
+  )
+
+# Clasificación según valor de referencia
+referencia <- Datos |>
+  count(Valor_referencia) |>
+  mutate(
+    Porcentaje = round(n / sum(n) * 100, 2)
+  ) |>
+  rename(
+    Categoria = Valor_referencia
+  )
+
+# Unir las dos clasificaciones
+clasificacion <- bind_rows(
+  limites |>
+    mutate(Analisis = "Límites analíticos"),
+
+  referencia |>
+    mutate(Analisis = "Valor de referencia")
+) |>
+  select(Analisis, Categoria, n, Porcentaje)
+
+# Mostrar tabla
+kable(
+  clasificacion,
+  digits = 2,
+  col.names = c(
+    "Tipo de análisis",
+    "Categoría",
+    "n",
+    "Porcentaje (%)"
+  ),
+  caption = "Tabla 3. Distribución de las concentraciones de cadmio según los límites analíticos y el valor de referencia."
+)
+```
+
+```{r}
+#| label: fig-grafica-clasificacion-cd
+#| fig-cap: "Figura 3. Distribución porcentual de las concentraciones de cadmio según los límites analíticos y el valor de referencia."
+#| fig-width: 10
+#| fig-height: 7
+#| fig-dpi: 300
+
+ggplot(
+  clasificacion,
+  aes(x = Categoria, y = Porcentaje, fill = Analisis)
+) +
+  geom_col(
+    width = 0.68,
+    color = "black",
+    linewidth = 0.35,
+    position = position_dodge(width = 0.78)
+  ) +
+
+  geom_text(
+    aes(label = paste0(format(
+      round(Porcentaje, 2),
+      nsmall = 2,
+      decimal.mark = ","
+    ), "%")),
+    position = position_dodge(width = 0.78),
+    vjust = -0.55,
+    size = 5,
+    family = "Times New Roman",
+    fontface = "bold",
+    color = "black"
+  ) +
+
+  scale_fill_manual(
+    values = c(
+      "Límites analíticos" = "pink",
+      "Valor de referencia" = "#DCC6E0"
+    )
+  ) +
+
+  scale_y_continuous(
+    name = "Porcentaje de muestras (%)",
+    breaks = seq(0, 100, by = 20),
+    limits = c(0, 110),
+    labels = scales::label_number(
+      suffix = "%",
+      decimal.mark = ","
+    ),
+    expand = expansion(mult = c(0, 0))
+  ) +
+
+  scale_x_discrete(
+    name = "Categoría de clasificación",
+    labels = c(
+      "Por debajo del LDM" = "Por debajo del\nLDM",
+      "Entre LDM y LCM" = "Entre LDM\ny LCM",
+      "Igual o mayor al LCM" = "Igual o mayor\nal LCM",
+      "Por debajo del valor de referencia" =
+        "Por debajo del valor\nde referencia",
+      "Igual o superior al valor de referencia" =
+        "Igual o superior al\nvalor de referencia"
+    )
+  ) +
+
+  labs(
+    title = "Distribución porcentual de las concentraciones de cadmio",
+    fill = "Tipo de análisis"
+  ) +
+
+  theme_classic(base_family = "Times New Roman") +
+
+  theme(
+    # Título
+    plot.title = element_text(
+      size = 17,
+      face = "bold",
+      hjust = 0.5,
+      margin = margin(b = 22),
+      color = "black"
+    ),
+
+    # Títulos de los ejes
+    axis.title.x = element_text(
+      size = 15,
+      face = "bold",
+      color = "black",
+      margin = margin(t = 15)
+    ),
+
+    axis.title.y = element_text(
+      size = 15,
+      face = "bold",
+      color = "black",
+      margin = margin(r = 15)
+    ),
+
+    # Valores de los ejes
+    axis.text.x = element_text(
+      size = 12,
+      face = "bold",
+      color = "black",
+      lineheight = 1.05
+    ),
+
+    axis.text.y = element_text(
+      size = 12,
+      color = "black"
+    ),
+
+    # Líneas de los ejes
+    axis.line = element_line(
+      color = "black",
+      linewidth = 0.9
+    ),
+
+    axis.ticks = element_line(
+      color = "black",
+      linewidth = 0.7
+    ),
+
+    axis.ticks.length = grid::unit(0.15, "cm"),
+
+    # Leyenda
+    legend.position = "top",
+    legend.justification = "center",
+
+    legend.title = element_text(
+      size = 13,
+      face = "bold",
+      color = "black"
+    ),
+
+    legend.text = element_text(
+      size = 12,
+      color = "black"
+    ),
+
+    legend.key.size = grid::unit(0.55, "cm"),
+
+    # Cuadrícula horizontal discreta
+    panel.grid.major.y = element_line(
+      color = "grey85",
+      linewidth = 0.45
+    ),
+
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank(),
+
+    # Márgenes
+    plot.margin = margin(
+      t = 18,
+      r = 25,
+      b = 18,
+      l = 18
+    )
+  )
+
+```
+
+```{r}
+#| label: fig-boxplot-cd
+#| fig-cap: "Figura 4. Distribución de las concentraciones de cadmio (Cd) en orina."
+#| fig-width: 8
+#| fig-height: 7
+#| fig-dpi: 300
+
+ggplot(Datos, aes(y = Cd_ug_L)) +
+
+  geom_boxplot(
+    fill = "#DCC6E0",
+    color = "purple",
+    width = 0.40,
+    linewidth = 0.9,
+    outlier.shape = 21,
+    outlier.size = 3.2,
+    outlier.fill = "pink",
+    outlier.color = "#F28",
+    outlier.stroke = 0.8
+  ) +
+
+  labs(
+    title = "Distribución de las concentraciones de cadmio",
+    y = "Concentración de Cd en orina (µg/L)",
+    x = NULL
+  ) +
+
+  scale_y_continuous(
+    breaks = seq(0, 5, by = 0.5),
+    limits = c(0, 5),
+    expand = expansion(mult = c(0.01, 0.04))
+  ) +
+
+  theme_classic(base_family = "Times New Roman") +
+
+  theme(
+    # Título principal
+    plot.title = element_text(
+      size = 17,
+      face = "bold",
+      hjust = 0.5,
+      color = "black",
+      margin = margin(b = 20)
+    ),
+
+    # Título del eje Y
+    axis.title.y = element_text(
+      size = 15,
+      face = "bold",
+      color = "black",
+      margin = margin(r = 15)
+    ),
+
+    # Valores del eje Y
+    axis.text.y = element_text(
+      size = 12,
+      color = "black"
+    ),
+
+    # Líneas de los ejes
+    axis.line = element_line(
+      color = "black",
+      linewidth = 0.9
+    ),
+
+    axis.ticks = element_line(
+      color = "black",
+      linewidth = 0.7
+    ),
+
+    axis.ticks.length = grid::unit(0.15, "cm"),
+
+    # Cuadrícula horizontal discreta
+    panel.grid.major.y = element_line(
+      color = "grey85",
+      linewidth = 0.45
+    ),
+
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_blank(),
+
+    # Márgenes del gráfico
+    plot.margin = margin(
+      t = 20,
+      r = 25,
+      b = 20,
+      l = 20
+    )
+  )
+```
+
+### Prueba t de Student
+
+```{r}
+#| label: prueba-t-cadmio
+#| echo: false
+
+# Extraer concentraciones de cadmio
+cd_orina <- Datos |>
+  pull(Cd_ug_L) |>
+  na.omit()
+
+# Valor de referencia provisional (µg/L)
+valor_referencia <- 1
+
+# Prueba t de una muestra
+prueba_t_cd <- t.test(
+  cd_orina,
+  mu = valor_referencia,
+  alternative = "greater",
+  conf.level = 0.95
+)
+
+# Estadísticas descriptivas
+cat("PRUEBA T DE STUDENT PARA CADMIO (Cd)\n")
+cat("====================================\n")
+
+cat("Hipótesis nula (H0): La concentración promedio no supera el valor de referencia.\n")
+cat("Hipótesis alternativa (H1): La concentración promedio supera el valor de referencia.\n\n")
+
+cat("Número de muestras:", length(cd_orina), "\n")
+cat("Media:", round(mean(cd_orina), 3), "µg/L\n")
+cat("Mediana:", round(median(cd_orina), 3), "µg/L\n")
+cat("Desviación estándar:", round(sd(cd_orina), 3), "µg/L\n")
+cat("Valor de referencia:", valor_referencia, "µg/L\n\n")
+
+cat("RESULTADOS:\n")
+cat("Estadístico t:", round(prueba_t_cd$statistic, 4), "\n")
+cat("Grados de libertad:", round(prueba_t_cd$parameter, 2), "\n")
+cat("Valor p:", round(prueba_t_cd$p.value, 4), "\n")
+cat("Límite inferior IC 95%:",
+    round(prueba_t_cd$conf.int[1], 3), "µg/L\n\n")
+
+cat("INTERPRETACIÓN:\n")
+
+if (prueba_t_cd$p.value < 0.05) {
+
+  cat("Se rechaza la hipótesis nula (H0).\n")
+  cat("Existe evidencia estadística de que la concentración promedio supera el valor de referencia.\n")
+  cat("Los resultados respaldan la hipótesis alternativa (H1).\n")
+
+} else {
+
+  cat("No se rechaza la hipótesis nula (H0).\n")
+  cat("No existe evidencia estadística suficiente para afirmar que la concentración promedio supera el valor de referencia.\n")
+  cat("No se obtiene respaldo estadístico para la hipótesis alternativa (H1).\n")
+}
+```
+
+# Discusión
+
+# Conclusión
+
+## Referencias
+
+Garizábalo Flórez, J. de J. (2025). Biomonitoreo de los niveles de cadmio en la orina de las comunidades pesqueras de la Ciénaga de Mallorquín \[Trabajo de grado no publicado\]. Universidad del Atlántico.

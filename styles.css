@@ -1,0 +1,20 @@
+/* Justificar el texto general del documento */
+p {
+  text-align: justify;
+}
+
+/* Centrar el título principal */
+#title-block-header {
+  text-align: center;
+}
+
+/* Centrar el nombre del autor y la fecha */
+#title-block-header .quarto-title-meta {
+  justify-content: center;
+}
+
+/* Centrar el contenido de las tablas */
+table th,
+table td {
+  text-align: center;
+}
